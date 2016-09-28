@@ -5,6 +5,7 @@ import { GRAY, BLACK, LIGHT_BLACK } from './colors';
 import DeleteButton from './delete-button';
 import Gender from './criterion/gender';
 import Gpa from './criterion/gpa';
+import Frl from './criterion/frl';
 
 const Criterion = React.createClass({
   propTypes: {
@@ -19,7 +20,8 @@ const Criterion = React.createClass({
 
     return {
       gender: <Gender fields={fields} setFields={setFields} />,
-      gpa: <Gpa fields={fields} setFields={setFields} />
+      gpa: <Gpa fields={fields} setFields={setFields} />,
+      frl: <Frl fields={fields} setFields={setFields} />
     }[type] || null;
   },
 
@@ -68,6 +70,7 @@ const Criterion = React.createClass({
             <option value="">Specify a Criterion</option>
             <option value="gender">Gender Criterion</option>
             <option value="gpa">GPA Criterion</option>
+            <option value="frl">FRL Criterion</option>
           </select>
         </label>
         {this.fields()}
