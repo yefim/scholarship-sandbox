@@ -4,6 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import reactCSS from 'reactcss';
 
+import MakeButton from './make-button';
 import Student from './student';
 import Scholarship from './scholarship';
 
@@ -94,6 +95,18 @@ const App = React.createClass({
         sandbox: {
           display: 'flex'
         },
+        header: {
+          fontFamily: 'Merriweather, serif',
+          fontSize: '26px',
+          margin: '20px 0 10px 0',
+          textAlign: 'center'
+        },
+        subheader: {
+          fontFamily: 'Merriweather, serif',
+          fontSize: '20px',
+          margin: '0 0 20px 0',
+          textAlign: 'center'
+        },
         students: {
           width: '50%'
         },
@@ -104,51 +117,55 @@ const App = React.createClass({
     });
 
     return (
-      <div style={styles.sandbox}>
-        <div style={styles.students}>
-          <button type="button" onClick={this.makeStudent}>Make Student</button>
-          {
-            _.map(students, (student, i) => {
-              return (
-                <Student
-                  key={student.id}
-                  {...student}
-                  scholarships={scholarships}
-                  setGender={(gender) => {
-                    this.setGender(i, gender);
-                  }}
-                  deleteStudent={() => {
-                    this.deleteStudent(i);
-                  }}
-                />
-              );
-            })
-          }
-        </div>
-        <div style={styles.scholarships}>
-          <button type="button" onClick={this.makeScholarship}>Make Scholarship</button>
-          {
-            _.map(scholarships, (scholarship, i) => {
-              return (
-                <Scholarship
-                  key={scholarship.id}
-                  addCriteria={() => {
-                    this.addCriteria(i);
-                  }}
-                  setCriterionType={(c, type) => {
-                    this.setCriterionType(i, c, type);
-                  }}
-                  setCriterionFields={(c, fields) => {
-                    this.setCriterionFields(i, c, fields);
-                  }}
-                  {...scholarship}
-                  deleteScholarship={() => {
-                    this.deleteScholarship(i);
-                  }}
-                />
-              );
-            })
-          }
+      <div>
+        <h1 style={styles.header}>Scholarship Sandbox</h1>
+        <h2 style={styles.subheader}>Create and test scholarships before they go live.</h2>
+        <div style={styles.sandbox}>
+          <div style={styles.students}>
+            <MakeButton onClick={this.makeStudent}>Make Student</MakeButton>
+            {
+              _.map(students, (student, i) => {
+                return (
+                  <Student
+                    key={student.id}
+                    {...student}
+                    scholarships={scholarships}
+                    setGender={(gender) => {
+                      this.setGender(i, gender);
+                    }}
+                    deleteStudent={() => {
+                      this.deleteStudent(i);
+                    }}
+                  />
+                );
+              })
+            }
+          </div>
+          <div style={styles.scholarships}>
+            <MakeButton onClick={this.makeScholarship}>Make Scholarship</MakeButton>
+            {
+              _.map(scholarships, (scholarship, i) => {
+                return (
+                  <Scholarship
+                    key={scholarship.id}
+                    addCriteria={() => {
+                      this.addCriteria(i);
+                    }}
+                    setCriterionType={(c, type) => {
+                      this.setCriterionType(i, c, type);
+                    }}
+                    setCriterionFields={(c, fields) => {
+                      this.setCriterionFields(i, c, fields);
+                    }}
+                    {...scholarship}
+                    deleteScholarship={() => {
+                      this.deleteScholarship(i);
+                    }}
+                  />
+                );
+              })
+            }
+          </div>
         </div>
       </div>
     );

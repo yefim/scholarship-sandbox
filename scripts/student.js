@@ -4,6 +4,7 @@ import React, { PropTypes } from 'react';
 import reactCSS from 'reactcss';
 
 import { GRAY, GREEN } from './colors';
+import DeleteButton from './delete-button';
 
 const Student = React.createClass({
   propTypes: {
@@ -48,7 +49,8 @@ const Student = React.createClass({
     const styles = reactCSS({
       default: {
         student: {
-          backgroundColor: GRAY
+          backgroundColor: GRAY,
+          fontFamily: 'Open Sans, sans-serif'
         }
       },
       qualifies: {
@@ -62,10 +64,7 @@ const Student = React.createClass({
 
     return (
       <div style={styles.student}>
-        <button
-          type="button"
-          onClick={deleteStudent}
-        >x</button>
+        <DeleteButton onClick={deleteStudent} />
         <h2>Student #{id}</h2>
         <p>Graduation Year: {graduationYear}</p>
         <select

@@ -3,6 +3,7 @@ import React, { PropTypes } from 'react';
 import reactCSS from 'reactcss';
 
 import { LIGHT_GRAY } from './colors';
+import DeleteButton from './delete-button';
 import Criterion from './criterion';
 
 const Scholarship = React.createClass({
@@ -27,17 +28,15 @@ const Scholarship = React.createClass({
     const styles = reactCSS({
       default: {
         scholarship: {
-          backgroundColor: LIGHT_GRAY
+          backgroundColor: LIGHT_GRAY,
+          fontFamily: 'Open Sans, sans-serif'
         }
       }
     });
 
     return (
       <div style={styles.scholarship}>
-        <button
-          type="button"
-          onClick={deleteScholarship}
-        >x</button>
+        <DeleteButton onClick={deleteScholarship} />
         <h2>Scholarship #{id}</h2>
         <button type="button" onClick={addCriteria}>Add Criteria</button>
         {
