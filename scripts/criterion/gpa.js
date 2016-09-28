@@ -6,7 +6,9 @@ const Gpa = React.createClass({
 
     return (
       <div>
+        <label style={{marginRight: 10}}>Min GPA</label>
         <input
+          style={{width: '200px'}}
           type="number"
           min="0"
           max="4"

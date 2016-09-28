@@ -6,6 +6,7 @@ const Frl = React.createClass({
 
     return (
       <div>
+        <label style={{marginRight: 10}}>Lunch Plan</label>
         <select
           value={fields.frl || ''}
           onChange={(e) => {

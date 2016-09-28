@@ -6,6 +6,7 @@ const Gender = React.createClass({
 
     return (
       <div>
+        <label style={{marginRight: 10}}>Gender</label>
         <select
           value={fields.gender || ''}
           onChange={(e) => {
