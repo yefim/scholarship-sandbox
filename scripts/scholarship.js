@@ -8,6 +8,7 @@ import Criterion from './criterion';
 const Scholarship = React.createClass({
   propTypes: {
     criteria: PropTypes.array.isRequired,
+    deleteScholarship: PropTypes.func.isRequired,
     addCriteria: PropTypes.func.isRequired,
     setCriterionType: PropTypes.func.isRequired,
     setCriterionFields: PropTypes.func.isRequired
@@ -17,6 +18,7 @@ const Scholarship = React.createClass({
     const {
       id,
       criteria,
+      deleteScholarship,
       addCriteria,
       setCriterionType,
       setCriterionFields
@@ -32,6 +34,10 @@ const Scholarship = React.createClass({
 
     return (
       <div style={styles.scholarship}>
+        <button
+          type="button"
+          onClick={deleteScholarship}
+        >x</button>
         <h2>Scholarship #{id}</h2>
         <button type="button" onClick={addCriteria}>Add Criteria</button>
         {

@@ -51,6 +51,12 @@ const App = React.createClass({
     this.setState({students});
   },
 
+  deleteScholarship(i) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    scholarships.splice(i, 1);
+    this.setState({scholarships});
+  },
+
   setGender(i, gender) {
     let students = _.cloneDeep(this.state.students);
     students[i].gender = gender;
@@ -136,6 +142,9 @@ const App = React.createClass({
                     this.setCriterionFields(i, c, fields);
                   }}
                   {...scholarship}
+                  deleteScholarship={() => {
+                    this.deleteScholarship(i);
+                  }}
                 />
               );
             })

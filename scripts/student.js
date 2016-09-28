@@ -14,20 +14,24 @@ const Student = React.createClass({
     setGender: PropTypes.func.isRequired
   },
 
-  qualifies() {
-    const { gender, scholarships } = this.props;
+  qualifiesForAll() {
+    const { scholarships } = this.props;
 
-    return _.every(scholarships, (scholarship) => {
-      return _.every(scholarship.criteria, (criterion) => {
-        switch (criterion.type) {
-          case 'gender':
-            return gender && gender === criterion.fields.gender;
-          case 'gpa':
-            return false;
-          default:
-            return true;
-        }
-      });
+    return _.every(scholarships, this.qualifiesFor);
+  },
+
+  qualifiesFor(scholarship) {
+    const { gender } = this.props;
+
+    return _.every(scholarship.criteria, (criterion) => {
+      switch (criterion.type) {
+        case 'gender':
+          return gender && gender === criterion.fields.gender;
+        case 'gpa':
+          return false;
+        default:
+          return true;
+      }
     });
   },
 
@@ -36,6 +40,7 @@ const Student = React.createClass({
       id,
       gender,
       graduationYear,
+      scholarships,
       deleteStudent,
       setGender
     } = this.props;
@@ -52,7 +57,7 @@ const Student = React.createClass({
         }
       }
     }, {
-      qualifies: this.qualifies()
+      qualifies: scholarships.length && this.qualifiesForAll()
     });
 
     return (
@@ -73,6 +78,15 @@ const Student = React.createClass({
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
+        {
+          _.map(scholarships, (scholarship) => {
+            if (this.qualifiesFor(scholarship)) {
+              return (<p key={scholarship.id}>Qualifies for Scholarship #{scholarship.id}</p>);
+            } else {
+              return (<p key={scholarship.id}>Does not qualify for Scholarship #{scholarship.id}</p>);
+            }
+          })
+        }
       </div>
     );
   }
