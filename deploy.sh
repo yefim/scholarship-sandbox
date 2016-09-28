@@ -21,11 +21,9 @@ mv build/bundle.js build/assets/bundle.js
 
 cd build
 git init
+git checkout --orphan $TARGET_BRANCH
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
-
-
 git add .
 git commit -m "Deploy to github pages"
-
 git push --force --quiet $SSH_REPO $TARGET_BRANCH
