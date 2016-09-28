@@ -12,15 +12,7 @@ import Scholarship from './scholarship';
 const App = React.createClass({
   getInitialState() {
     return {
-      students: [{
-        id: _.uniqueId(),
-        info: {
-          graduationYear: 2017,
-          gender: '',
-          frl: ''
-        },
-        courses: []
-      }],
+      students: [],
       scholarships: [{
         id: _.uniqueId(),
         criteria: []
@@ -120,14 +112,14 @@ const App = React.createClass({
         header: {
           color: BLACK,
           fontFamily: 'Merriweather, serif',
-          fontSize: '26px',
+          fontSize: '32px',
           margin: '20px 0 10px 0',
           textAlign: 'center'
         },
         subheader: {
           color: BLACK,
           fontFamily: 'Merriweather, serif',
-          fontSize: '20px',
+          fontSize: '26px',
           margin: '0 0 20px 0',
           textAlign: 'center'
         },
