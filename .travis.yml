@@ -1,0 +1,12 @@
+script: ./deploy.sh
+env:
+  global:
+  - ENCRYPTION_LABEL: b05558aa6c01
+  - COMMIT_AUTHOR_EMAIL: "yefim323@gmail.com"
+language: node_js
+node_js:
+- "6"
+sudo: false
+cache:
+  directories:
+  - node_modules
