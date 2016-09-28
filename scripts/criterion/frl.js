@@ -12,7 +12,7 @@ const Frl = React.createClass({
             setFields({frl: e.target.value});
           }}
         >
-          <option value=""></option>
+          <option value="">Specify a Lunch Plan</option>
           <option value="yes">Free or Reduced Price Lunch</option>
           <option value="no">Not on Free or Reduced Price Lunch</option>
         </select>
