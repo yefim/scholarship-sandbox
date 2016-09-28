@@ -10,7 +10,7 @@ webpack -p --config webpack.config.js
 mkdir build/assets
 mv build/bundle.js build/assets/bundle.js
 
-cd bundle
+cd build
 git init
 git config user.name "Travis CI"
 git config user.email "$COMMIT_AUTHOR_EMAIL"
