@@ -19,6 +19,7 @@ const DeleteButton = React.createClass({
           cursor: 'pointer',
           float: 'right',
           outline: 'none',
+          margin: '-10px -10px',
           padding: '10px'
         },
         x: {
@@ -38,7 +39,7 @@ const DeleteButton = React.createClass({
         type="button"
         onClick={onClick}
       >
-        <svg style={styles.x} width="40" height="40" viewBox="0 0 40 40">
+        <svg style={styles.x} width="30" height="30" viewBox="0 0 40 40">
           <path
             fill="transparent"
             strokeLinecap="round"

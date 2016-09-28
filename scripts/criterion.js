@@ -1,5 +1,8 @@
 import React, { PropTypes } from 'react';
+import reactCSS from 'reactcss';
 
+import { GRAY, LIGHT_BLACK } from './colors';
+import DeleteButton from './delete-button';
 import Gender from './criterion/gender';
 import Gpa from './criterion/gpa';
 
@@ -23,18 +26,39 @@ const Criterion = React.createClass({
   render() {
     const {
       type,
-      setType
+      setType,
+      deleteCriterion
     } = this.props;
 
+    const styles = reactCSS({
+      default: {
+        criterion: {
+          backgroundColor: GRAY,
+          borderStyle: 'solid',
+          borderWidth: 1,
+          borderColor: LIGHT_BLACK,
+          borderRadius: 2,
+          margin: '20px 0',
+          padding: '15px'
+        },
+        label: {
+          fontSize: 16,
+          margin: '0 15px 0 0'
+        }
+      }
+    });
+
     return (
-      <div>
+      <div style={styles.criterion}>
+        <DeleteButton onClick={deleteCriterion} />
+        <label style={styles.label}>Criterion Type</label>
         <select
           value={type}
           onChange={(e) => {
             setType(e.target.value);
           }}
         >
-          <option value="">Criterion</option>
+          <option value="">Specify a Criterion</option>
           <option value="gender">Gender Criterion</option>
           <option value="gpa">GPA Criterion</option>
         </select>

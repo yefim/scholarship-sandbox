@@ -12,7 +12,7 @@ const Gender = React.createClass({
             setFields({gender: e.target.value});
           }}
         >
-          <option value="">Gender</option>
+          <option value="">Specify a Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>

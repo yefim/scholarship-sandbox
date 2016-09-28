@@ -12,7 +12,10 @@ const App = React.createClass({
   getInitialState() {
     return {
       students: [],
-      scholarships: []
+      scholarships: [{
+        id: _.uniqueId(),
+        criteria: []
+      }]
     };
   },
 
@@ -74,6 +77,12 @@ const App = React.createClass({
     this.setState({scholarships});
   },
 
+  deleteCriterion(i, c) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    scholarships[i].criteria.splice(c, 1);
+    this.setState({scholarships});
+  },
+
   setCriterionType(i, c, type) {
     let scholarships = _.cloneDeep(this.state.scholarships);
     scholarships[i].criteria[c].type = type;
@@ -127,7 +136,7 @@ const App = React.createClass({
               _.map(students, (student, i) => {
                 return (
                   <Student
-                    key={student.id}
+                    key={`student-${student.id}`}
                     {...student}
                     scholarships={scholarships}
                     setGender={(gender) => {
@@ -147,9 +156,12 @@ const App = React.createClass({
               _.map(scholarships, (scholarship, i) => {
                 return (
                   <Scholarship
-                    key={scholarship.id}
+                    key={`scholarship-${scholarship.id}`}
                     addCriteria={() => {
                       this.addCriteria(i);
+                    }}
+                    deleteCriterion={(c) => {
+                      this.deleteCriterion(i, c);
                     }}
                     setCriterionType={(c, type) => {
                       this.setCriterionType(i, c, type);

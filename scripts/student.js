@@ -68,12 +68,12 @@ const Student = React.createClass({
         <h2>Student #{id}</h2>
         <p>Graduation Year: {graduationYear}</p>
         <select
-          defaultValue={gender}
+          value={gender}
           onChange={(e) => {
             setGender(e.target.value);
           }}
         >
-          <option value="">Gender</option>
+          <option value="">Specify a Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>

@@ -12,6 +12,7 @@ const Gpa = React.createClass({
           max="4"
           step="0.1"
           value={fields.gpa || ''}
+          placeholder="Specify a GPA"
           onChange={(e) => {
             setFields({gpa: e.target.value});
           }}
