@@ -25,7 +25,7 @@ module.exports = {
         exclude: /node_modules/,
         test: /\.js$/,
         query: {
-          presets: ['es2015'],
+          presets: ['es2015', 'react'],
           cacheDirectory: true,
           plugins: ['lodash', 'transform-strict-mode', 'transform-object-rest-spread', 'es6-promise']
         },

@@ -1,70 +1,151 @@
 // libraries
-import $ from 'jquery';
 import _ from 'lodash';
-import Backbone from 'backbone';
+import React from 'react';
+import { render } from 'react-dom';
+import reactCSS from 'reactcss';
 
-// templates
-import { APP_TEMPLATE, STUDENT_TEMPLATE } from 'templates';
+import Student from './student';
+import Scholarship from './scholarship';
 
-const Student = Backbone.Model.extend({
-  defaults() {
-    const now = new Date();
-
+const App = React.createClass({
+  getInitialState() {
     return {
-      id: _.uniqueId(),
-      graduationYear: now.getFullYear() + 1,
-      courses: [],
-      gender: null,
+      students: [],
+      scholarships: []
     };
-  }
-});
-
-const Students = Backbone.Collection.extend({
-  model: Student
-});
-
-const StudentView = Backbone.View.extend({
-  render() {
-    return _.template(STUDENT_TEMPLATE)(this.model.toJSON());
-  }
-});
-
-const AppView = Backbone.View.extend({
-  events: {
-    'click .make-student': 'makeStudent',
-    'click .delete-student': 'deleteStudent'
-  },
-
-  initialize() {
-    this.students = new Students();
-    this.scholarships = [];
-
-    this.listenTo(this.students, 'all', this.render);
   },
 
   makeStudent() {
-    this.students.add({});
+    const now = new Date();
+
+    const student = {
+      id: _.uniqueId(),
+      graduationYear: now.getFullYear() + 1,
+      gender: '',
+      courses: []
+    };
+
+    const { students } = this.state;
+
+    this.setState({
+      students: [...students, student]
+    });
   },
 
-  deleteStudent() {
+  makeScholarship() {
+    const scholarship = {
+      id: _.uniqueId(),
+      criteria: []
+    };
+
+    const { scholarships } = this.state;
+
+    this.setState({
+      scholarships: [...scholarships, scholarship]
+    });
+  },
+
+  deleteStudent(i) {
+    let students = _.cloneDeep(this.state.students);
+    students.splice(i, 1);
+    this.setState({students});
+  },
+
+  setGender(i, gender) {
+    let students = _.cloneDeep(this.state.students);
+    students[i].gender = gender;
+    this.setState({students});
+  },
+
+  addCriteria(i) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    scholarships[i].criteria.push({
+      id: _.uniqueId(),
+      type: '',
+      fields: {}
+    });
+    this.setState({scholarships});
+  },
+
+  setCriterionType(i, c, type) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    scholarships[i].criteria[c].type = type;
+    this.setState({scholarships});
+  },
+
+  setCriterionFields(i, c, fields) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    const oldFields = scholarships[i].criteria[c].fields;
+    scholarships[i].criteria[c].fields = _.merge({}, oldFields, fields);
+    this.setState({scholarships});
   },
 
   render() {
-    const students = this.students.map((student) => {
-      const studentView = new StudentView({model: student});
-      return studentView.render();
+    const { students, scholarships } = this.state;
+
+    const styles = reactCSS({
+      default: {
+        sandbox: {
+          display: 'flex'
+        },
+        students: {
+          width: '50%'
+        },
+        scholarships: {
+          width: '50%'
+        }
+      }
     });
 
-    this.$el.html(_.template(APP_TEMPLATE)({
-      students: students.join('')
-    }));
-
-    return this;
+    return (
+      <div style={styles.sandbox}>
+        <div style={styles.students}>
+          <button type="button" onClick={this.makeStudent}>Make Student</button>
+          {
+            _.map(students, (student, i) => {
+              return (
+                <Student
+                  key={student.id}
+                  {...student}
+                  setGender={(gender) => {
+                    this.setGender(i, gender);
+                  }}
+                  deleteStudent={() => {
+                    this.deleteStudent(i);
+                  }}
+                />
+              );
+            })
+          }
+        </div>
+        <div style={styles.scholarships}>
+          <button type="button" onClick={this.makeScholarship}>Make Scholarship</button>
+          {
+            _.map(scholarships, (scholarship, i) => {
+              return (
+                <Scholarship
+                  key={scholarship.id}
+                  addCriteria={() => {
+                    this.addCriteria(i);
+                  }}
+                  setCriterionType={(c, type) => {
+                    this.setCriterionType(i, c, type);
+                  }}
+                  setCriterionFields={(c, fields) => {
+                    this.setCriterionFields(i, c, fields);
+                  }}
+                  {...scholarship}
+                />
+              );
+            })
+          }
+        </div>
+      </div>
+    );
   }
 });
 
-$(document).ready(function() {
-  const appView = new AppView();
-
-  $('#app').html(appView.render().el);
-});
+render(
+  <App />,
+  document.getElementById('app')
+);
