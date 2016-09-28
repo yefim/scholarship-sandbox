@@ -107,6 +107,7 @@ const App = React.createClass({
                 <Student
                   key={student.id}
                   {...student}
+                  scholarships={scholarships}
                   setGender={(gender) => {
                     this.setGender(i, gender);
                   }}
