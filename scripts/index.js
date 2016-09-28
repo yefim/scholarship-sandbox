@@ -4,6 +4,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import reactCSS from 'reactcss';
 
+import { BLACK } from './colors';
 import MakeButton from './make-button';
 import Student from './student';
 import Scholarship from './scholarship';
@@ -105,12 +106,14 @@ const App = React.createClass({
           display: 'flex'
         },
         header: {
+          color: BLACK,
           fontFamily: 'Merriweather, serif',
           fontSize: '26px',
           margin: '20px 0 10px 0',
           textAlign: 'center'
         },
         subheader: {
+          color: BLACK,
           fontFamily: 'Merriweather, serif',
           fontSize: '20px',
           margin: '0 0 20px 0',

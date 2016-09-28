@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import reactCSS from 'reactcss';
 
-import { GRAY, LIGHT_BLACK } from './colors';
+import { GRAY, BLACK, LIGHT_BLACK } from './colors';
 import DeleteButton from './delete-button';
 import Gender from './criterion/gender';
 import Gpa from './criterion/gpa';
@@ -42,6 +42,7 @@ const Criterion = React.createClass({
           padding: '15px'
         },
         label: {
+          color: BLACK,
           display: 'block',
           fontSize: 16,
           margin: '0 0 10px 0'
