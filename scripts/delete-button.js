@@ -5,11 +5,18 @@ import { BLACK, LIGHT_BLACK } from './colors';
 
 const DeleteButton = React.createClass({
   propTypes: {
-    onClick: PropTypes.func.isRequired
+    onClick: PropTypes.func.isRequired,
+    size: PropTypes.string
+  },
+
+  getDefaultProps() {
+    return {
+      size: "30"
+    };
   },
 
   render() {
-    const { onClick, hover } = this.props;
+    const { onClick, hover, size } = this.props;
 
     const styles = reactCSS({
       default: {
@@ -39,7 +46,7 @@ const DeleteButton = React.createClass({
         type="button"
         onClick={onClick}
       >
-        <svg style={styles.x} width="30" height="30" viewBox="0 0 40 40">
+        <svg style={styles.x} width={size} height={size} viewBox="0 0 40 40">
           <path
             fill="transparent"
             strokeLinecap="round"

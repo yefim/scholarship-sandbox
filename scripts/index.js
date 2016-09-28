@@ -128,7 +128,7 @@ const App = React.createClass({
     return (
       <div>
         <h1 style={styles.header}>Scholarship Sandbox</h1>
-        <h2 style={styles.subheader}>Create and test scholarships before they go live.</h2>
+        <h2 style={styles.subheader}>Build and test scholarships before they go live.</h2>
         <div style={styles.sandbox}>
           <div style={styles.students}>
             <MakeButton onClick={this.makeStudent}>Make Student</MakeButton>

@@ -42,26 +42,33 @@ const Criterion = React.createClass({
           padding: '15px'
         },
         label: {
+          display: 'block',
           fontSize: 16,
-          margin: '0 15px 0 0'
+          margin: '0 0 10px 0'
+        },
+        dropdown: {
+          margin: '0 0 0 15px'
         }
       }
     });
 
     return (
       <div style={styles.criterion}>
-        <DeleteButton onClick={deleteCriterion} />
-        <label style={styles.label}>Criterion Type</label>
-        <select
-          value={type}
-          onChange={(e) => {
-            setType(e.target.value);
-          }}
-        >
-          <option value="">Specify a Criterion</option>
-          <option value="gender">Gender Criterion</option>
-          <option value="gpa">GPA Criterion</option>
-        </select>
+        <DeleteButton onClick={deleteCriterion} size="20" />
+        <label style={styles.label}>
+          Criterion Type
+          <select
+            style={styles.dropdown}
+            value={type}
+            onChange={(e) => {
+              setType(e.target.value);
+            }}
+          >
+            <option value="">Specify a Criterion</option>
+            <option value="gender">Gender Criterion</option>
+            <option value="gpa">GPA Criterion</option>
+          </select>
+        </label>
         {this.fields()}
       </div>
     );
