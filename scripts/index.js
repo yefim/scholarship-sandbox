@@ -12,7 +12,15 @@ import Scholarship from './scholarship';
 const App = React.createClass({
   getInitialState() {
     return {
-      students: [],
+      students: [{
+        id: _.uniqueId(),
+        info: {
+          graduationYear: 2017,
+          gender: '',
+          frl: ''
+        },
+        courses: []
+      }],
       scholarships: [{
         id: _.uniqueId(),
         criteria: []
@@ -25,8 +33,11 @@ const App = React.createClass({
 
     const student = {
       id: _.uniqueId(),
-      graduationYear: now.getFullYear() + 1,
-      gender: '',
+      info: {
+        graduationYear: now.getFullYear() + 1,
+        gender: '',
+        frl: ''
+      },
       courses: []
     };
 
@@ -62,9 +73,10 @@ const App = React.createClass({
     this.setState({scholarships});
   },
 
-  setGender(i, gender) {
+  setInfo(i, info) {
     let students = _.cloneDeep(this.state.students);
-    students[i].gender = gender;
+    const oldInfo = students[i].info;
+    students[i].info = _.merge({}, oldInfo, info);
     this.setState({students});
   },
 
@@ -142,8 +154,8 @@ const App = React.createClass({
                     key={`student-${student.id}`}
                     {...student}
                     scholarships={scholarships}
-                    setGender={(gender) => {
-                      this.setGender(i, gender);
+                    setInfo={(info) => {
+                      this.setInfo(i, info);
                     }}
                     deleteStudent={() => {
                       this.deleteStudent(i);

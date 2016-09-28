@@ -8,11 +8,20 @@ import DeleteButton from './delete-button';
 
 const Student = React.createClass({
   propTypes: {
-    gender: PropTypes.string.isRequired,
-    graduationYear: PropTypes.number.isRequired,
+    info: PropTypes.shape({
+      gender: PropTypes.string.isRequired,
+      frl: PropTypes.string.isRequired,
+      graduationYear: PropTypes.number.isRequired,
+    }).isRequired,
     scholarships: PropTypes.array.isRequired,
     deleteStudent: PropTypes.func.isRequired,
-    setGender: PropTypes.func.isRequired
+    setInfo: PropTypes.func.isRequired
+  },
+
+  setFrl(e) {
+    const { setInfo } = this.props;
+
+    setInfo({frl: e.target.value});
   },
 
   qualifiesForAll() {
@@ -22,10 +31,17 @@ const Student = React.createClass({
   },
 
   qualifiesFor(scholarship) {
-    const { gender } = this.props;
+    const {
+      info: {
+        gender,
+        frl
+      }
+    } = this.props;
 
     return _.every(scholarship.criteria, (criterion) => {
       switch (criterion.type) {
+        case 'frl':
+          return frl && frl === criterion.fields.frl;
         case 'gender':
           return gender && gender === criterion.fields.gender;
         case 'gpa':
@@ -39,18 +55,35 @@ const Student = React.createClass({
   render() {
     const {
       id,
-      gender,
-      graduationYear,
+      info: {
+        gender,
+        frl,
+        graduationYear
+      },
       scholarships,
       deleteStudent,
-      setGender
+      setInfo
     } = this.props;
 
     const styles = reactCSS({
       default: {
         student: {
           backgroundColor: GRAY,
-          fontFamily: 'Open Sans, sans-serif'
+          borderRadius: 2,
+          fontFamily: 'Open Sans, sans-serif',
+          padding: '20px',
+          margin: '10px'
+        },
+        header: {
+          fontFamily: 'Merriweather, serif',
+          fontSize: 20,
+          margin: '0px'
+        },
+        p: {
+          margin: '10px 0 0 0'
+        },
+        radio: {
+          margin: '0 15px 0 0'
         }
       },
       qualifies: {
@@ -65,18 +98,46 @@ const Student = React.createClass({
     return (
       <div style={styles.student}>
         <DeleteButton onClick={deleteStudent} />
-        <h2>Student #{id}</h2>
+        <h2 style={styles.header}>Student #{id}</h2>
         <p>Graduation Year: {graduationYear}</p>
         <select
           value={gender}
           onChange={(e) => {
-            setGender(e.target.value);
+            setInfo({gender: e.target.value});
           }}
         >
           <option value="">Specify a Gender</option>
           <option value="male">Male</option>
           <option value="female">Female</option>
         </select>
+        <p style={styles.p}>Is the student on Free or Reduced Price Lunch?</p>
+        <label style={styles.radio}>
+          <input
+            onChange={this.setFrl}
+            checked={frl === 'yes'}
+            name="frl"
+            type="radio"
+            value="yes"
+          /> Yes
+        </label>
+        <label style={styles.radio}>
+          <input
+            onChange={this.setFrl}
+            checked={frl === 'no'}
+            name="frl"
+            type="radio"
+            value="no"
+          /> No
+        </label>
+        <label style={styles.radio}>
+          <input
+            onChange={this.setFrl}
+            checked={frl === 'idk'}
+            name="frl"
+            type="radio"
+            value="idk"
+          /> I Don't Know
+        </label>
         {
           _.map(scholarships, (scholarship) => {
             if (this.qualifiesFor(scholarship)) {
