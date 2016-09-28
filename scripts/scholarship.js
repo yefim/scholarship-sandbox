@@ -10,7 +10,9 @@ import Criterion from './criterion';
 
 const Scholarship = React.createClass({
   propTypes: {
+    type: PropTypes.string.isRequired,
     criteria: PropTypes.array.isRequired,
+    setType: PropTypes.func.isRequired,
     deleteScholarship: PropTypes.func.isRequired,
     addCriteria: PropTypes.func.isRequired,
     deleteCriterion: PropTypes.func.isRequired,
@@ -19,8 +21,8 @@ const Scholarship = React.createClass({
   },
 
   exportScholarship() {
-    const { id, criteria } = this.props;
-    const scholarship = {id, criteria};
+    const { id, type, criteria } = this.props;
+    const scholarship = {id, type, criteria};
     const file = new File([JSON.stringify(scholarship)], `scholarship-${id}.txt`, {type: 'text/plain;charset=utf-8'});
 
     saveAs(file);
@@ -30,6 +32,8 @@ const Scholarship = React.createClass({
     const {
       id,
       criteria,
+      type,
+      setType,
       deleteScholarship,
       addCriteria,
       deleteCriterion,
@@ -73,6 +77,16 @@ const Scholarship = React.createClass({
               : null
           }
         </div>
+        <select
+          value={type}
+          onChange={(e) => {
+            setType(e.target.value);
+          }}
+        >
+          <option value="">Specify a Scholarship Type</option>
+          <option value="course-grade">Course Grade</option>
+          <option value="challenging-course">Challenging Course</option>
+        </select>
         {
           _.map(criteria, (criterion, i) => {
             return (

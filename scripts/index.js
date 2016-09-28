@@ -15,6 +15,8 @@ const App = React.createClass({
       students: [],
       scholarships: [{
         id: _.uniqueId(),
+        type: '',
+        fields: {},
         criteria: []
       }]
     };
@@ -43,6 +45,8 @@ const App = React.createClass({
   makeScholarship() {
     const scholarship = {
       id: _.uniqueId(),
+      type: '',
+      fields: {},
       criteria: []
     };
 
@@ -98,6 +102,12 @@ const App = React.createClass({
     let scholarships = _.cloneDeep(this.state.scholarships);
     const oldFields = scholarships[i].criteria[c].fields;
     scholarships[i].criteria[c].fields = _.merge({}, oldFields, fields);
+    this.setState({scholarships});
+  },
+
+  setScholarshipType(i, type) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    scholarships[i].type = type;
     this.setState({scholarships});
   },
 
@@ -164,6 +174,9 @@ const App = React.createClass({
                 return (
                   <Scholarship
                     key={`scholarship-${scholarship.id}`}
+                    setType={(type) => {
+                      this.setScholarshipType(i, type);
+                    }}
                     addCriteria={() => {
                       this.addCriteria(i);
                     }}
