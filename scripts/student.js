@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React, { PropTypes } from 'react';
 import reactCSS from 'reactcss';
 
-import { GRAY, GREEN } from './colors';
+import { RED, YELLOW, GREEN } from './colors';
 import DeleteButton from './delete-button';
 
 const Student = React.createClass({
@@ -24,10 +24,12 @@ const Student = React.createClass({
     setInfo({frl: e.target.value});
   },
 
-  qualifiesForAll() {
+  qualifications() {
     const { scholarships } = this.props;
 
-    return _.every(scholarships, this.qualifiesFor);
+    return _.groupBy(scholarships, (scholarship) => {
+      return this.qualifiesFor(scholarship) ? 'qualifies' : 'nope';
+    });
   },
 
   qualifiesFor(scholarship) {
@@ -65,10 +67,14 @@ const Student = React.createClass({
       setInfo
     } = this.props;
 
+    const qualifications = this.qualifications();
+    const qualifies = qualifications.qualifies || [];
+    const nope = qualifications.nope || [];
+
     const styles = reactCSS({
       default: {
         student: {
-          backgroundColor: GRAY,
+          backgroundColor: RED,
           borderRadius: 2,
           fontFamily: 'Open Sans, sans-serif',
           padding: '20px',
@@ -86,13 +92,19 @@ const Student = React.createClass({
           margin: '0 15px 0 0'
         }
       },
-      qualifies: {
+      qualifiesForAll: {
         student: {
           backgroundColor: GREEN
         }
+      },
+      qualifiesForSome: {
+        student: {
+          backgroundColor: YELLOW
+        }
       }
     }, {
-      qualifies: scholarships.length && this.qualifiesForAll()
+      qualifiesForAll: qualifies.length > 0 && nope.length === 0,
+      qualifiesForSome: qualifies.length > 0 && nope.length > 0
     });
 
     return (
@@ -115,7 +127,7 @@ const Student = React.createClass({
           <input
             onChange={this.setFrl}
             checked={frl === 'yes'}
-            name="frl"
+            name={`frl-${id}`}
             type="radio"
             value="yes"
           /> Yes
@@ -124,7 +136,7 @@ const Student = React.createClass({
           <input
             onChange={this.setFrl}
             checked={frl === 'no'}
-            name="frl"
+            name={`frl-${id}`}
             type="radio"
             value="no"
           /> No
@@ -133,20 +145,27 @@ const Student = React.createClass({
           <input
             onChange={this.setFrl}
             checked={frl === 'idk'}
-            name="frl"
+            name={`frl-${id}`}
             type="radio"
             value="idk"
           /> I Don't Know
         </label>
+        <p>Qualifies for</p>
+        <ul>
         {
-          _.map(scholarships, (scholarship) => {
-            if (this.qualifiesFor(scholarship)) {
-              return (<p key={scholarship.id}>Qualifies for Scholarship #{scholarship.id}</p>);
-            } else {
-              return (<p key={scholarship.id}>Does not qualify for Scholarship #{scholarship.id}</p>);
-            }
+          _.map(qualifications.qualifies, (scholarship) => {
+            return (<li key={scholarship.id}>Scholarship #{scholarship.id}</li>);
           })
         }
+        </ul>
+        <p>Does not qualify for</p>
+        <ul>
+          {
+            _.map(qualifications.nope, (scholarship) => {
+              return (<li key={scholarship.id}>Scholarship #{scholarship.id}</li>);
+            })
+          }
+        </ul>
       </div>
     );
   }
