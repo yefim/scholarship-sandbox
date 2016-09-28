@@ -14,7 +14,7 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
-webpack -p --config webpack.config.js
+webpack -p --config webpack-prod.config.js
 
 mkdir build/assets
 mv build/bundle.js build/assets/bundle.js
