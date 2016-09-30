@@ -3,7 +3,7 @@ import reactCSS from 'reactcss';
 
 import Amount from './fields/amount';
 
-const CourseGrade = React.createClass({
+const ChallengingClass = React.createClass({
   propTypes: {
     fields: PropTypes.object.isRequired,
     setFields: PropTypes.func.isRequired
@@ -14,10 +14,6 @@ const CourseGrade = React.createClass({
 
     const styles = reactCSS({
       default: {
-        grades: {
-          height: '117px',
-          width: '100px'
-        }
       }
     });
 
@@ -25,26 +21,25 @@ const CourseGrade = React.createClass({
       <div>
         <Amount max={true} fields={fields} setFields={setFields} />
         <select
-          style={styles.grades}
           multiple={true}
-          value={fields.grades || []}
+          value={fields.types || []}
           onChange={(e) => {
-            const grades = [...e.target.options].filter((option) => {
+            const types = [...e.target.options].filter((option) => {
               return option.selected;
             }).map((option) => { return option.value; });
 
-            setFields({grades});
+            setFields({types});
           }}
         >
-          <option value="A">A</option>
-          <option value="B">B</option>
-          <option value="C">C</option>
-          <option value="D">D</option>
-          <option value="F">F</option>
+          <option value="ap">AP</option>
+          <option value="ib">IB</option>
+          <option value="honors">Honors</option>
+          <option value="advanced">Advanced</option>
+          <option value="dual-enrollment">Dual Enrollment</option>
         </select>
       </div>
     );
   }
 });
 
-export default CourseGrade;
+export default ChallengingClass;

@@ -1,32 +1,44 @@
 import React, { PropTypes } from 'react';
 
+import Num from './num';
+
 const Amount = React.createClass({
   propTypes: {
-    amount: PropTypes.oneOfType([
-      PropTypes.number,
-      PropTypes.string
-    ]),
-    setFields: PropTypes.func.isRequired
+    fields: PropTypes.object.isRequired,
+    setFields: PropTypes.func.isRequired,
+    max: PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      max: false
+    };
   },
 
   render() {
-    const { amount, setFields } = this.props;
+    const { fields, setFields, max } = this.props;
 
     return (
-      <input
-        type="text"
-        placeholder="Specify an Amount"
-        value={amount == null ? '' : amount}
-        onChange={(e) => {
-          const val = e.target.value;
-
-          if (!isNaN(+val) && !isNaN(parseInt(+val, 10)) && +val === parseInt(val, 10)) {
-            setFields({amount: +val});
-          } else {
+      <div>
+        <Num
+          placeholder="Specify an Amount"
+          value={fields.amount}
+          onChange={(val) => {
             setFields({amount: val});
-          }
-        }}
-      />
+          }}
+        />
+        {
+          max
+            ? <Num
+                placeholder="Specify a Max Amount"
+                value={fields.maxAward}
+                onChange={(val) => {
+                  setFields({maxAward: val});
+                }}
+              />
+            : null
+        }
+      </div>
     );
   }
 });

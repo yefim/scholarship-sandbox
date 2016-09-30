@@ -7,6 +7,7 @@ import { BLACK, LIGHT_GRAY, GREEN, BLUE, WHITE } from './colors';
 import Button from './button';
 import DeleteButton from './delete-button';
 import CourseGrade from './scholarships/course-grade';
+import ChallengingClass from './scholarships/challenging-class';
 import Criterion from './criterion';
 
 const Scholarship = React.createClass({
@@ -34,7 +35,8 @@ const Scholarship = React.createClass({
     const { type, fields, setFields } = this.props;
 
     return {
-      'course-grade': <CourseGrade fields={fields} setFields={setFields} />
+      'course-grade': <CourseGrade fields={fields} setFields={setFields} />,
+      'challenging-class': <ChallengingClass fields={fields} setFields={setFields} />
     }[type] || null;
   },
 
@@ -91,7 +93,7 @@ const Scholarship = React.createClass({
         >
           <option value="">Specify a Scholarship Type</option>
           <option value="course-grade">Course Grade</option>
-          <option value="challenging-course">Challenging Course</option>
+          <option value="challenging-class">Challenging Class</option>
         </select>
         {this.fields()}
         {
