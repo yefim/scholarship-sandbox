@@ -1,6 +1,8 @@
 import React, { PropTypes }  from 'react';
 import reactCSS from 'reactcss';
 
+import Amount from './fields/amount';
+
 const CourseGrade = React.createClass({
   propTypes: {
     fields: PropTypes.object.isRequired,
@@ -21,6 +23,7 @@ const CourseGrade = React.createClass({
 
     return (
       <div>
+        <Amount amount={fields.amount} setFields={setFields} />
         <select
           style={styles.grades}
           multiple={true}
