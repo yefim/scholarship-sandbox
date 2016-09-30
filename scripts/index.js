@@ -1,5 +1,6 @@
 // libraries
 import _ from 'lodash';
+import { id } from './utils';
 import React from 'react';
 import { render } from 'react-dom';
 import reactCSS from 'reactcss';
@@ -14,7 +15,7 @@ const App = React.createClass({
     return {
       students: [],
       scholarships: [{
-        id: _.uniqueId(),
+        id: id(),
         type: '',
         fields: {},
         criteria: []
@@ -26,7 +27,7 @@ const App = React.createClass({
     const now = new Date();
 
     const student = {
-      id: _.uniqueId(),
+      id: id(),
       info: {
         graduationYear: now.getFullYear() + 1,
         gender: '',
@@ -44,7 +45,7 @@ const App = React.createClass({
 
   makeScholarship() {
     const scholarship = {
-      id: _.uniqueId(),
+      id: id(),
       type: '',
       fields: {},
       criteria: []
@@ -79,7 +80,7 @@ const App = React.createClass({
   addCriteria(i) {
     let scholarships = _.cloneDeep(this.state.scholarships);
     scholarships[i].criteria.push({
-      id: _.uniqueId(),
+      id: id(),
       type: '',
       fields: {}
     });
@@ -108,6 +109,13 @@ const App = React.createClass({
   setScholarshipType(i, type) {
     let scholarships = _.cloneDeep(this.state.scholarships);
     scholarships[i].type = type;
+    this.setState({scholarships});
+  },
+
+  setScholarshipFields(i, fields) {
+    let scholarships = _.cloneDeep(this.state.scholarships);
+    const oldFields = scholarships[i].fields;
+    scholarships[i].fields = _.assign({}, oldFields, fields);
     this.setState({scholarships});
   },
 
@@ -176,6 +184,9 @@ const App = React.createClass({
                     key={`scholarship-${scholarship.id}`}
                     setType={(type) => {
                       this.setScholarshipType(i, type);
+                    }}
+                    setFields={(fields) => {
+                      this.setScholarshipFields(i, fields);
                     }}
                     addCriteria={() => {
                       this.addCriteria(i);

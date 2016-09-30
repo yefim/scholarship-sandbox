@@ -6,6 +6,7 @@ import { saveAs } from 'file-saver';
 import { BLACK, LIGHT_GRAY, GREEN, BLUE, WHITE } from './colors';
 import Button from './button';
 import DeleteButton from './delete-button';
+import CourseGrade from './scholarships/course-grade';
 import Criterion from './criterion';
 
 const Scholarship = React.createClass({
@@ -13,6 +14,7 @@ const Scholarship = React.createClass({
     type: PropTypes.string.isRequired,
     criteria: PropTypes.array.isRequired,
     setType: PropTypes.func.isRequired,
+    setFields: PropTypes.func.isRequired,
     deleteScholarship: PropTypes.func.isRequired,
     addCriteria: PropTypes.func.isRequired,
     deleteCriterion: PropTypes.func.isRequired,
@@ -21,11 +23,19 @@ const Scholarship = React.createClass({
   },
 
   exportScholarship() {
-    const { id, type, criteria } = this.props;
-    const scholarship = {id, type, criteria};
+    const { id, type, fields, criteria } = this.props;
+    const scholarship = {id, type, fields, criteria};
     const file = new File([JSON.stringify(scholarship)], `scholarship-${id}.txt`, {type: 'text/plain;charset=utf-8'});
 
     saveAs(file);
+  },
+
+  fields() {
+    const { type, fields, setFields } = this.props;
+
+    return {
+      'course-grade': <CourseGrade fields={fields} setFields={setFields} />
+    }[type] || null;
   },
 
   render() {
@@ -71,11 +81,7 @@ const Scholarship = React.createClass({
         <div style={styles.title}>
           <h2 style={styles.header}>Scholarship #{id}</h2>
           <Button backgroundColor={GREEN} onClick={addCriteria}>Add Criterion</Button>
-          {
-            _.some(criteria, 'type')
-              ? <Button style={{margin: '0 0 0 20px'}} backgroundColor={BLUE} onClick={this.exportScholarship}>Export Scholarship</Button>
-              : null
-          }
+          <Button style={{margin: '0 0 0 20px'}} backgroundColor={BLUE} onClick={this.exportScholarship}>Export Scholarship</Button>
         </div>
         <select
           value={type}
@@ -87,6 +93,7 @@ const Scholarship = React.createClass({
           <option value="course-grade">Course Grade</option>
           <option value="challenging-course">Challenging Course</option>
         </select>
+        {this.fields()}
         {
           _.map(criteria, (criterion, i) => {
             return (

@@ -1,6 +1,9 @@
 {
   "name": "scholarship-sandbox",
   "version": "0.0.1",
+  "scripts": {
+    "start": "webpack-dev-server --inline --content-base build/"
+  },
   "dependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
