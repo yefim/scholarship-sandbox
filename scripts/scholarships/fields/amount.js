@@ -15,6 +15,7 @@ const Amount = React.createClass({
     return (
       <input
         type="text"
+        placeholder="Specify an Amount"
         value={amount == null ? '' : amount}
         onChange={(e) => {
           const val = e.target.value;
